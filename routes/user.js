@@ -29,7 +29,17 @@ router.get("/login", (req,res)=>{
 router.post("/login",passport.authenticate("local",{failureRedirect:"/login", failureFlash: true}), async(req,res)=>{
 req.flash("success", "Welcome to Wanderlst. You are Login!")
 res.redirect("/listings");
-})
+});
+
+router.get("/logout", (req,res,next)=>{
+    req.logout((err)=>{
+        if(err){
+            return next(err);
+        }
+        req.flash("succes", "You logOut!")
+        res.redirect("/listings");
+    })
+});
 
 
 

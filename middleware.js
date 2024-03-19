@@ -1,5 +1,6 @@
+const passport = require("passport");
 module.exports.isLoggedIn= (req,res,next)=>{
-    if(!req.isAuthenticated()){
+    if(!req.Authenticated()){
         req.session.url= req.originalUrl;
         req.flash("error", "You must be Logged In the Listing!");
         return res.redirect("/login");
