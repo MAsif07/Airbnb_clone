@@ -37,7 +37,7 @@ router.get("/logout", (req,res,next)=>{
             return next(err);
         }
         req.flash("succes", "You logOut!")
-        res.redirect("/listings");
+        res.redirect("/login");
     })
 });
 
