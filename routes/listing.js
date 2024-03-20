@@ -40,7 +40,7 @@ router.get("/", wrapAsync(async (req, res) => {
   }));
   
   // //Create Route
-  router.post("/",validateSchema, wrapAsync(async (req, res) => {
+  router.post("/",validateSchema,isLoggedIn, wrapAsync(async (req, res) => {
     const newListing = new Listing(req.body.listing);
     await newListing.save();
     req.flash("success", "New listing Created!");
@@ -48,7 +48,7 @@ router.get("/", wrapAsync(async (req, res) => {
   }));
   
   //Edit Route
-  router.get("/:id/edit", wrapAsync(async (req, res) => {
+  router.get("/:id/edit",isLoggedIn, wrapAsync(async (req, res) => {
     let { id } = req.params;
     const listing = await Listing.findById(id);
     if(!listing){
@@ -59,7 +59,7 @@ router.get("/", wrapAsync(async (req, res) => {
   }));
   
   // //Update Route
-  router.put("/:id",validateSchema, wrapAsync(async (req, res) => {
+  router.put("/:id",validateSchema, isLoggedIn, wrapAsync(async (req, res) => {
     let { id } = req.params;
     await Listing.findByIdAndUpdate(id, { ...req.body.listing });
     req.flash("success", "Listing Updated!");
@@ -68,7 +68,7 @@ router.get("/", wrapAsync(async (req, res) => {
   
   
   // //Delete Route
-  router.delete("/:id", wrapAsync(async (req, res) => {
+  router.delete("/:id",isLoggedIn, wrapAsync(async (req, res) => {
     let { id } = req.params;
     let deletedListing = await Listing.findByIdAndDelete(id);
     console.log(deletedListing);

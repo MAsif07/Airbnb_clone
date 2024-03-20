@@ -52,11 +52,6 @@ app.use((req,res,next)=>{
   next();
 });
 
-app.use("/listings", listingRouter);
-app.use("/listings/:id/reviews", reviewRouter);
-app.use("/",userRouter)
-
-
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -66,6 +61,14 @@ passport.use(new LocalStrategy(User.authenticate()));
 // use static serialize and deserialize of model for passport session support
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+
+app.use("/listings", listingRouter);
+app.use("/listings/:id/reviews", reviewRouter);
+app.use("/",userRouter)
+
+
+
+
 
 
 app.get("/", (req, res) => {
@@ -77,7 +80,7 @@ app.all("*",(req,res,next)=>{
   next(new ExpressError(404,"Page Not Found"));
 });
 
-app.use((err,re,res,net)=>{
+app.use((err,req,res,next)=>{
   let {statusCode=505, message="Something wrong"}=err;
   res.status(statusCode).render("listings/err.ejs",{message});
 });
