@@ -31,11 +31,9 @@ router.get("/", wrapAsync(listingController.renderIndex));
   // //Show Route
   router.get("/:id", wrapAsync(listingController.showListing));
   
-  // //Create Route
-  // router.post("/",validateSchema,isLoggedIn, wrapAsync(listingController.createListing));
-  router.post("/",upload.single("listing[image]"), (req,res)=>{
-    res.send(req.file);
-  });
+  //Create Route
+  router.post("/",isLoggedIn,upload.single("listing[image]"), wrapAsync(listingController.createListing));
+ 
   
   //Edit Route
   router.get("/:id/edit",isLoggedIn,isOwner, wrapAsync(listingController.editListing));
