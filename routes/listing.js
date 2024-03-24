@@ -8,7 +8,8 @@ const {isLoggedIn, isOwner}= require("../middleware.js");
 const listingController= require("../controllers/listing.js")
 
 const multer= require("multer");
-const upload= multer({dest: "upload"});
+const {storage}=require("../cloudConfig.js");
+const upload= multer({storage});
 
 // function to validate middleware
 const validateSchema=(req,res,next)=>{
