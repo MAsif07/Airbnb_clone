@@ -7,6 +7,9 @@ const Listing = require("../models/listing.js");
 const {isLoggedIn, isOwner}= require("../middleware.js");
 const listingController= require("../controllers/listing.js")
 
+const multer= require("multer");
+const upload= multer({dest: "upload"});
+
 // function to validate middleware
 const validateSchema=(req,res,next)=>{
     let {error}=listingSchema.validate(req.body);
@@ -28,7 +31,10 @@ router.get("/", wrapAsync(listingController.renderIndex));
   router.get("/:id", wrapAsync(listingController.showListing));
   
   // //Create Route
-  router.post("/",validateSchema,isLoggedIn, wrapAsync(listingController.createListing));
+  // router.post("/",validateSchema,isLoggedIn, wrapAsync(listingController.createListing));
+  router.post("/",upload.single("listing[image]"), (req,res)=>{
+    res.send(req.file);
+  });
   
   //Edit Route
   router.get("/:id/edit",isLoggedIn,isOwner, wrapAsync(listingController.editListing));
