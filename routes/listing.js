@@ -32,14 +32,14 @@ router.get("/", wrapAsync(listingController.renderIndex));
   router.get("/:id", wrapAsync(listingController.showListing));
   
   //Create Route
-  router.post("/",isLoggedIn,upload.single("listing[image]"), wrapAsync(listingController.createListing));
+  router.post("/",isLoggedIn,upload.single("listing[image]"),validateSchema, wrapAsync(listingController.createListing));
  
   
   //Edit Route
   router.get("/:id/edit",isLoggedIn,isOwner, wrapAsync(listingController.editListing));
   
   // //Update Route
-  router.put("/:id",validateSchema, isLoggedIn,isOwner, wrapAsync(listingController.updateLising));
+  router.put("/:id", isLoggedIn,isOwner,upload.single("listing[image]"), validateSchema,wrapAsync(listingController.updateLising));
   
   
   // //Delete Route
